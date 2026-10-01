@@ -1,0 +1,26 @@
+appId: ai.opencode.gotracker
+productName: OpenCodeGoTracker
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - out/**/*
+  - resources/**/*
+  - assets/**/*
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  category: public.app-category.developer-tools
+  icon: resources/app_icon.png
+  extendInfo:
+    LSUIElement: true
+win:
+  target: nsis
+  icon: resources/app_icon.png
+linux:
+  target: AppImage
+  category: Utility
+  icon: resources/app_icon.png
