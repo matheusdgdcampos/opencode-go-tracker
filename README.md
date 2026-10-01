@@ -1,17 +1,21 @@
 <p align="center">
+  <strong>🇺🇸 English</strong> • <a href="README.pt-BR.md">🇧🇷 Leia em Português</a>
+</p>
+
+<p align="center">
   <img src="resources/app_icon.png" width="128" height="128" alt="OpenCode Go Tracker Logo" />
 </p>
 
 <h1 align="center">OpenCode Go Tracker</h1>
 
 <p align="center">
-  <strong>Utilitário de menu bar e system tray multiplataforma para acompanhamento contínuo e em tempo real das cotas de uso do OpenCode Go.</strong>
+  <strong>Cross-platform menu bar & system tray utility for real-time monitoring of OpenCode Go usage quotas.</strong>
 </p>
 
 <p align="center">
-  <a href="#-testes-e-cobertura"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=flat-square&logo=githubactions" alt="Build Status" /></a>
-  <a href="#-testes-e-cobertura"><img src="https://img.shields.io/badge/tests-92%20passed-brightgreen?style=flat-square&logo=vitest" alt="Tests" /></a>
-  <a href="#-testes-e-cobertura"><img src="https://img.shields.io/badge/coverage-%3E90%25-brightgreen?style=flat-square" alt="Coverage" /></a>
+  <a href="#-testing-and-coverage"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=flat-square&logo=githubactions" alt="Build Status" /></a>
+  <a href="#-testing-and-coverage"><img src="https://img.shields.io/badge/tests-92%20passed-brightgreen?style=flat-square&logo=vitest" alt="Tests" /></a>
+  <a href="#-testing-and-coverage"><img src="https://img.shields.io/badge/coverage-%3E90%25-brightgreen?style=flat-square" alt="Coverage" /></a>
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square" alt="Platforms" />
   <img src="https://img.shields.io/badge/electron-v34-47848F?style=flat-square&logo=electron" alt="Electron" />
   <img src="https://img.shields.io/badge/typescript-v5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,143 +24,144 @@
 </p>
 
 <p align="center">
-  <a href="#-funcionalidades">Funcionalidades</a> •
-  <a href="#-modelo-de-privacidade-e-segurança">Privacidade</a> •
-  <a href="#-tabela-de-estados-da-interface">Estados da UI</a> •
-  <a href="#-arquitetura">Arquitetura</a> •
-  <a href="#-guia-do-desenvolvedor">Desenvolvimento</a> •
-  <a href="#-testes-e-cobertura">Testes & Cobertura</a> •
-  <a href="#-resolução-de-credenciais-e-troubleshooting">Credenciais</a>
+  <a href="#-about-the-project">About</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-privacy--security-model">Privacy</a> •
+  <a href="#-interface-states">UI States</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-developer-guide">Development</a> •
+  <a href="#-testing-and-coverage">Testing & Coverage</a> •
+  <a href="#-credentials--troubleshooting">Credentials</a>
 </p>
 
 ---
 
-## 📖 Sobre o Projeto
+## 📖 About the Project
 
-O **OpenCode Go Tracker** é uma aplicação leve e elegante que reside exclusivamente na barra de menus / bandeja do sistema operacional (macOS Menu Bar, Windows System Tray e Linux StatusNotifierItem). 
+**OpenCode Go Tracker** is a sleek, lightweight background utility designed exclusively for your operating system's menu bar or system tray (macOS Menu Bar, Windows System Tray, and Linux StatusNotifierItem).
 
-Desenvolvido para assinantes do [OpenCode Go](https://opencode.ai), seu objetivo é evitar surpresas de esgotamento de cota durante sessões de codificação com agentes de IA, fornecendo visibilidade imediata das cotas restantes e tempo para o próximo reset sem precisar abrir o navegador ou rodar comandos manuais.
+Built specifically for [OpenCode Go](https://opencode.ai) subscribers, it prevents quota exhaustion surprises during AI coding sessions by providing instant visibility into your remaining quotas and countdown timers to the next reset—without opening a browser or running manual commands.
 
-Portado fielmente da versão nativa em Swift/AppKit para **Electron + React + TypeScript**, preserva 100% dos princípios de Clean Architecture, isolamento em memória e zero pegada no disco.
-
----
-
-## 🚀 Funcionalidades
-
-- **Exclusivo de Bandeja (Tray-Only):** Não ocupa espaço no Dock (macOS) nem na barra de tarefas (Windows/Linux). O popup abre de forma fluida ancorado ao ícone da bandeja e fecha automaticamente ao perder o foco (*hide-on-blur* com proteção anti-flicker).
-- **Três Janelas de Cota Independentes:**
-  - ⏱️ **5 horas (Rolling Window):** Janela móvel de uso imediato, refletida no rótulo da barra com o percentual consumido (`>_ 42%`).
-  - 📅 **Semanal:** Acompanhamento do limite semanal acumulado.
-  - 📆 **Mensal:** Cota total do ciclo de faturamento.
-- **Degraus Semânticos de Cor:**
-  - 🟢 **Normal (`< 50%`):** Verde (`#30D158`).
-  - 🟡 **Atenção (`50% – 79%`):** Amarelo (`#FFD60A`).
-  - 🔴 **Crítico (`≥ 80%`):** Vermelho (`#FF453A`).
-- **Contagem Regressiva em Tempo Real:** Atualizada localmente a cada minuto pelo cliente visual (`Reseta em 3h 05min`), sem sobrecarregar a API com requisições adicionais.
-- **Resiliência Visual (*Stale-While-Revalidate*):** Falhas transitórias de conexão ou instabilidades na API mantêm a última medição válida visível na tela em vez de exibir telas de erro disruptivas.
-- **Internacionalização Automática (i18n):** Idioma detectado automaticamente a partir do sistema operacional (`pt-BR` ou `en-US`), com fallback gracioso.
+Faithfully ported from the native Swift/AppKit version to **Electron + React + TypeScript**, it preserves 100% of Clean Architecture principles, strict in-memory isolation, and a zero-disk footprint.
 
 ---
 
-## 🔒 Modelo de Privacidade e Segurança
+## 🚀 Features
 
-Projetado sob o princípio de **Zero Residue / Zero Footprint**:
-
-1. **Sem Banco de Dados ou Arquivos Locais:** A aplicação não salva configurações, histórico ou arquivos em disco.
-2. **Chave Efêmera em Memória:** Se a chave da API for inserida manualmente pela interface, ela é mantida apenas na memória RAM do processo principal e descartada imediatamente ao fechar o app.
-3. **Leitura Segura do `auth.json`:** Lê em modo somente-leitura o arquivo mantido pelo próprio OpenCode CLI em `~/.local/share/opencode/auth.json`. Detecta rotações de chave automaticamente a cada ciclo de polling (60s).
-4. **Isolamento de Dados do Electron:** O diretório de cache/navegação `userData` é apontado dinamicamente para o `$TMPDIR` efêmero do sistema operacional antes da inicialização.
-5. **Preload Protegido:** `contextIsolation: true`, `sandbox: true` e `nodeIntegration: false`. A chave de API nunca é vazada para o contexto de renderização (UI).
+- **Tray-Only Presence:** Never clutters your macOS Dock or Windows/Linux taskbar. The popup window opens smoothly anchored to the tray icon and dismisses automatically on blur (*hide-on-blur* with anti-flicker protection).
+- **Three Independent Quota Windows:**
+  - ⏱️ **5-Hour (Rolling Window):** Immediate rolling usage window, reflected directly in the tray label with percentage consumed (`>_ 42%`).
+  - 📅 **Weekly Window:** Cumulative weekly quota tracking.
+  - 📆 **Monthly Window:** Total billing cycle quota tracking.
+- **Semantic Color Thresholds:**
+  - 🟢 **Normal (`< 50%`):** Calm Green (`#30D158`).
+  - 🟡 **Warning (`50% – 79%`):** Alert Yellow (`#FFD60A`).
+  - 🔴 **Critical (`≥ 80%`):** Urgent Red (`#FF453A`).
+- **Real-Time Client-Side Countdown:** Automatically recalculated every minute locally (`Resets in 3h 05m`), keeping timers fresh without overloading the API with unnecessary requests.
+- **Visual Resilience (*Stale-While-Revalidate*):** Transient network drops or API hiccups preserve the last known valid metrics on screen rather than showing disruptive error screens.
+- **Automatic Localization (i18n):** Automatically detects system language (`en-US` or `pt-BR`) with seamless fallbacks.
 
 ---
 
-## 🖥️ Tabela de Estados da Interface
+## 🔒 Privacy & Security Model
 
-O painel exibe uma interface limpa adaptada exatamente ao estado atual da conexão:
+Designed from the ground up under the **Zero Residue / Zero Footprint** principle:
 
-| Estado | Ícone / Indicador | Descrição Visual | Ações Disponíveis |
+1. **No Database or Local Config Files:** The application never writes configuration, history, or tokens to disk.
+2. **Ephemeral Memory Storage:** If an API key is manually entered in the UI, it is held strictly in volatile RAM within the main process and destroyed when the app exits.
+3. **Safe Read-Only Credential Access:** Automatically reads credentials directly from the official OpenCode CLI path (`~/.local/share/opencode/auth.json`) in read-only mode, seamlessly detecting token rotations on every polling cycle (60s).
+4. **Isolated Cache & Storage:** Electron's `userData` path is redirected dynamically to the OS temporary directory (`$TMPDIR`) before app initialization.
+5. **Hardened Preload Bridge:** `contextIsolation: true`, `sandbox: true`, and `nodeIntegration: false`. The raw API token is never exposed to the renderer context.
+
+---
+
+## 🖥️ Interface States
+
+The popup renders a focused, context-aware interface matching the current connection state:
+
+| State | Icon / Indicator | Visual Description | Available Actions |
 | :--- | :--- | :--- | :--- |
-| **Loaded** | 📊 3 Barras de Quota | Exibe as 3 barras coloridas com percentual e tempo de reset | Atualizar cota, Encerrar |
-| **Loading** | ⏳ Spinner elegante | Sincronizando dados com a API (preserva dados anteriores se houver) | Encerrar |
-| **No Key** | 🔑 Campo de Chave | Orienta o usuário a rodar `/connect` ou colar a chave da API em memória | Enviar chave, Encerrar |
-| **Invalid Key** | ⚠️ Alerta Amarelo | Informa que a chave não é reconhecida ou a assinatura expirou | Atualizar, Encerrar |
-| **Network Error** | 🌐 Sem Conexão | Sinaliza instabilidade e informa nova tentativa automática em 60s | Atualizar agora, Encerrar |
-| **Unexpected Response** | 🛑 Erro Inesperado | Trata alterações de schema ou respostas anômalas da API de forma segura | Atualizar agora, Encerrar |
+| **Loaded** | 📊 3 Quota Bars | Color-coded progress bars with percentage and reset countdown | Refresh quota, Quit |
+| **Loading** | ⏳ Polished Spinner | Synchronizing data with API (preserves stale data if available) | Quit |
+| **No Key** | 🔑 Key Input Field | Guides user to run `/connect` or paste API token into memory | Submit key, Quit |
+| **Invalid Key** | ⚠️ Yellow Alert | Explains that the key is invalid or the subscription has expired | Retry, Quit |
+| **Network Error** | 🌐 Offline Warning | Indicates network drop and schedules automatic retry in 60s | Retry now, Quit |
+| **Unexpected Response** | 🛑 Error Shield | Gracefully handles unexpected schema changes or upstream failures | Retry now, Quit |
 
 ---
 
-## 🏗️ Arquitetura
+## 🏗️ Architecture
 
-O projeto adota os princípios de **Clean Architecture** e **Dependency Inversion (DIP)**:
+The codebase strictly follows **Clean Architecture** and **Dependency Inversion (DIP)**:
 
 ```text
 opencode-go-tracker/
-├── assets/                       # Ícones de bandeja vetoriais e rasterizados (16x16, 32x32@2x)
-├── resources/                    # Logotipo e ícone oficial do aplicativo (app_icon.png)
+├── assets/                       # Vector and raster tray icon assets (16x16, 32x32@2x)
+├── resources/                    # Official application logo and icons (app_icon.png)
 └── src/
-    ├── core/                     # ⚙️ Domínio e Lógica Pura (Independente de UI e Electron)
-    │   ├── models.ts             # Decodificação estrita de cotas e ISO-8601
-    │   ├── formatter.ts          # Cálculo de BarLevel e formatação de timeRemaining
-    │   ├── fileSystem.ts         # Abstração de I/O sobre fs, os e path
-    │   ├── authKeyReader.ts      # Leitor seguro do auth.json com suporte a DI
-    │   ├── usageService.ts       # Máquina de estados finitos e polling periódico (60s)
-    │   ├── strings.ts            # Dicionários de i18n e resolução de idioma
-    │   ├── utils.ts              # Utilitários de clamp, parse seguro e asserções de tipo
-    │   └── *.test.ts             # Testes unitários do domínio
-    ├── main/                     # 🖥️ Processo Principal (Electron / Node.js)
-    │   ├── index.ts              # Ciclo de vida, single-instance lock e orquestração
-    │   ├── popupWindow.ts        # Janela popup com posicionamento dinâmico e clamp na tela
-    │   ├── trayController.ts     # Controlador nativo da bandeja (título macOS / canvas Win/Linux)
-    │   ├── appPaths.ts           # Configuração de userData efêmero em temp
-    │   └── ipc.ts                # Handlers IPC tipados e broadcast seguro
-    ├── preload/                  # 🛡️ Ponte Segura (contextBridge)
-    │   ├── index.ts              # Contrato de RPC seguro via window.api
-    │   └── index.d.ts            # Tipagens globais expostas ao renderer
-    └── renderer/                 # ⚛️ Interface de Usuário (React + TypeScript)
-        ├── App.tsx               # Painel principal com renderização de estados
-        ├── QuotaBar.tsx          # Componente reutilizável de barra de progresso
-        ├── trayLabel.ts          # Renderização offscreen em canvas para Win/Linux
-        └── styles.css            # Estilização no tema escuro (#1F1F24)
+    ├── core/                     # ⚙️ Pure Domain & Business Logic (UI & Electron agnostic)
+    │   ├── models.ts             # Strict quota decoding & ISO-8601 parsing
+    │   ├── formatter.ts          # BarLevel calculations & timeRemaining formatting
+    │   ├── fileSystem.ts         # I/O abstraction over fs, os, and path
+    │   ├── authKeyReader.ts      # Secure auth.json reader with DI support
+    │   ├── usageService.ts       # Finite state machine & 60s polling scheduler
+    │   ├── strings.ts            # i18n dictionaries & locale resolution
+    │   ├── utils.ts              # Math clamping, safe parsing, and type guards
+    │   └── *.test.ts             # Comprehensive domain unit tests
+    ├── main/                     # 🖥️ Electron Main Process (Node.js)
+    │   ├── index.ts              # Lifecycle, single-instance lock, orchestration
+    │   ├── popupWindow.ts        # Popup window with screen boundary clamping
+    │   ├── trayController.ts     # Native tray controller (macOS title / Win/Linux canvas)
+    │   ├── appPaths.ts           # Ephemeral temp userData isolation
+    │   └── ipc.ts                # Strongly-typed IPC handlers & state broadcast
+    ├── preload/                  # 🛡️ Secure Preload Bridge (contextBridge)
+    │   ├── index.ts              # Strict RPC contract exposed via window.api
+    │   └── index.d.ts            # Global TypeScript definitions for renderer
+    └── renderer/                 # ⚛️ User Interface (React 19 + TypeScript)
+        ├── App.tsx               # State-driven popup view
+        ├── QuotaBar.tsx          # Reusable semantic progress bar component
+        ├── trayLabel.ts          # Offscreen canvas badge generation (Win/Linux)
+        └── styles.css            # Dark mode styling (#1F1F24)
 ```
 
 ---
 
-## 🛠️ Guia do Desenvolvedor
+## 🛠️ Developer Guide
 
-### Pré-requisitos
-- **Node.js:** Versão 20 ou superior.
-- **npm:** Versão 10 ou superior.
+### Prerequisites
+- **Node.js:** v20.0.0 or higher.
+- **npm:** v10.0.0 or higher.
 
-### Instalação
+### Installation
 ```bash
 npm install
 ```
 
-### Modo de Desenvolvimento
-Inicia a aplicação com Hot Module Replacement (HMR) e reload automático:
+### Development Mode
+Launch the application with Hot Module Replacement (HMR) and live reload:
 ```bash
 npm run dev
 ```
 
-### Verificação de Tipos TypeScript
-Valida tipagens estritas tanto no ambiente Node/Main quanto no ambiente Web/DOM:
+### TypeScript Type Checking
+Validates strict type safety across Node/Main and DOM/Web environments:
 ```bash
 npm run typecheck
 ```
 
-### Compilação de Produção
-Gera os bundles otimizados em `out/`:
+### Production Build
+Compiles and bundles optimized assets into `out/`:
 ```bash
 npm run build
 ```
 
-### Empacotamento de Executáveis
-Gera os instaladores nativos para o seu sistema operacional:
+### Packaging Installers
+Build native packages for your target operating system:
 ```bash
-# macOS (DMG arm64 + x64)
+# macOS (Universal/arm64/x64 DMG)
 npm run dist:mac
 
-# Windows (Instalador NSIS)
+# Windows (NSIS Installer)
 npm run dist:win
 
 # Linux (AppImage)
@@ -165,59 +170,59 @@ npm run dist:linux
 
 ---
 
-## 🧪 Testes e Cobertura
+## 🧪 Testing and Coverage
 
-A suíte de testes automatizados é executada com [Vitest](https://vitest.dev) e [V8 Coverage](https://v8.dev):
+The automated test suite runs on [Vitest](https://vitest.dev) with native [V8 Coverage](https://v8.dev):
 
-### Executar Testes Unitários
+### Run Unit Tests
 ```bash
 npm test
 ```
 
-### Executar com Relatório de Cobertura de Código (≥ 80%)
-Gera relatório detalhado no terminal e relatórios em HTML e LCOV em `coverage/`:
+### Run Tests with Coverage (≥ 80% Threshold)
+Generates detailed terminal tables, HTML reports, and LCOV output in `coverage/`:
 ```bash
 npm run test:coverage
 ```
 
-### Métricas Atuais de Cobertura
-| Métrica | Cobertura Obtida | Meta do Projeto | Status |
+### Current Coverage Metrics
+| Metric | Current Coverage | Project Target | Status |
 | :--- | :---: | :---: | :---: |
-| **Linhas (% Lines)** | **90.83%** | ≥ 80.00% | ✅ Aprovado |
-| **Declarações (% Stmts)** | **90.83%** | ≥ 80.00% | ✅ Aprovado |
-| **Funções (% Funcs)** | **92.30%** | ≥ 80.00% | ✅ Aprovado |
-| **Ramos (% Branch)** | **86.64%** | ≥ 80.00% | ✅ Aprovado |
+| **Lines (% Lines)** | **90.83%** | ≥ 80.00% | ✅ Passed |
+| **Statements (% Stmts)** | **90.83%** | ≥ 80.00% | ✅ Passed |
+| **Functions (% Funcs)** | **92.30%** | ≥ 80.00% | ✅ Passed |
+| **Branches (% Branch)** | **86.64%** | ≥ 80.00% | ✅ Passed |
 
 ---
 
-## 🔍 Resolução de Credenciais e Troubleshooting
+## 🔍 Credentials & Troubleshooting
 
-### Onde a chave da API é armazenada?
-O OpenCode salva credenciais locais no seguinte caminho por padrão:
-- **macOS / Linux:** `~/.local/share/opencode/auth.json` (ou `$XDG_DATA_HOME/opencode/auth.json`)
+### Where does OpenCode store credentials?
+By default, the OpenCode CLI stores authentication tokens at:
+- **macOS / Linux:** `~/.local/share/opencode/auth.json` (or `$XDG_DATA_HOME/opencode/auth.json`)
 - **Windows:** `%LOCALAPPDATA%\opencode\auth.json`
 
-O formato do arquivo é:
+The file schema is:
 ```json
 {
   "opencode-go": {
     "type": "api",
-    "key": "sk-sua-chave-aqui"
+    "key": "sk-your-api-key-here"
   }
 }
 ```
 
-### Chave não encontrada no app?
-1. **Login no terminal:** Abra o seu terminal e execute:
+### Key Not Detected in the App?
+1. **Terminal Login:** Open your terminal and log in via the official CLI:
    ```bash
    opencode providers login --provider opencode-go
    ```
-   Cole sua chave de API quando solicitado. O tracker detectará a nova chave automaticamente no próximo ciclo de sincronização (ou clique no botão de atualizar no rodapé).
-2. **Inserção manual:** Se preferir, cole a chave diretamente na tela da aplicação — ela será mantida em memória volátil durante a sessão.
-3. **Variável de ambiente:** O OpenCode CLI também suporta a variável `OPENCODE_API_KEY` no seu shell.
+   Paste your API key when prompted. The tracker will automatically discover the credentials on the next polling cycle (or click the refresh button).
+2. **Direct Manual Input:** Paste your API key directly into the application window—it will be stored safely in memory for the duration of the session.
+3. **Environment Variable:** The OpenCode CLI also respects the `OPENCODE_API_KEY` shell environment variable.
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Distribuído sob a licença **MIT**. Consulte `LICENSE` para mais informações.
+Distributed under the **MIT License**. See `LICENSE` for details.
